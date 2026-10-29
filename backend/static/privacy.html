@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Privacy Policy - SKMU Updates</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:720px;margin:0 auto;padding:20px;line-height:1.6;color:#1B1B1F;background:#fff}
+h1{color:#1A237E}h2{margin-top:26px;font-size:18px}
+@media(prefers-color-scheme:dark){body{background:#10121A;color:#ECEEF5}h1{color:#9FA8DA}}
+</style>
+</head>
+<body>
+<h1>Privacy Policy</h1>
+<p><b>SKMU Updates</b> is an unofficial, student-run app that shares admission, result, form, exam and notice information related to SKMU Dumka. It is not affiliated with or endorsed by the university.</p>
+
+<h2>What we collect</h2>
+<ul>
+  <li><b>Name and question text</b> that you type when you ask a question on a post. These are visible to other users of the app.</li>
+  <li><b>A random device ID</b> generated inside the app (not linked to your name, phone number or account) used only to count how many people use the app.</li>
+  <li><b>Basic server logs</b> (such as IP address and time of request) kept by the hosting server for security and abuse prevention.</li>
+</ul>
+
+<h2>What we do not collect</h2>
+<p>We do not collect your location, contacts, phone number, email, photos or files from your device. We do not show ads and we do not sell data.</p>
+
+<h2>Notifications</h2>
+<p>The app can show a notification when a new update is posted. You can turn notifications off in your phone settings at any time.</p>
+
+<h2>Questions and moderation</h2>
+<p>Questions can be reported by users. The admin may delete questions or posts that are abusive, misleading or inappropriate.</p>
+
+<h2>Data deletion</h2>
+<p>You can ask for your questions to be deleted by contacting us at the address below.</p>
+
+<h2>Contact</h2>
+<p id="contact">Contact details are shown in the app (Info tab).</p>
+
+<script>
+fetch("/api/config").then(r=>r.json()).then(j=>{
+  var c=(j.settings&&j.settings.contact)||"";
+  if(c)document.getElementById("contact").textContent=c;
+}).catch(function(){});
+</script>
+</body>
+</html>

@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1A237E">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/static/icon-192.png">
+<title>SKMU Updates</title>
+<style>
+:root{--p:#1A237E;--ac:#3949AB;--a:#FFB300;--bg:#F3F4F9;--card:#fff;--t:#1B1B1F;--m:#5F6368;--line:#E0E3EB;--soft:#8A8F98;--rp:#E8F5E9;--rpt:#1B5E20;--link:#1A237E}
+[data-theme=dark]{--bg:#10121A;--card:#1B1E2B;--t:#ECEEF5;--m:#A0A6B8;--line:#2A2F42;--soft:#8A90A5;--rp:#1B3A24;--rpt:#A5D6A7;--link:#9FA8DA;--ac:#5C6BC0}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--t);padding-bottom:76px}
+header{background:linear-gradient(135deg,#1A237E,#3949AB);color:#fff;padding:14px 16px 14px;position:sticky;top:0;z-index:5;box-shadow:0 2px 10px #0003}
+.top{display:flex;align-items:center;gap:12px}
+.logo{width:42px;height:42px;border-radius:12px;background:#fff;display:grid;place-items:center;font-size:24px;flex:none}
+.tt{flex:1;min-width:0}
+h1{margin:0;font-size:21px;letter-spacing:.3px;user-select:none}
+.sub{font-size:11.5px;color:#C5CAE9;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.badge{background:var(--a);color:#000;font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;margin-left:8px;display:none;vertical-align:middle}
+.hb{background:#ffffff26;border:0;color:#fff;height:36px;min-width:36px;padding:0 10px;border-radius:18px;font-size:15px;cursor:pointer;font-weight:600}
+.search{margin-top:12px;width:100%;border:0;border-radius:24px;padding:12px 18px;font-size:15px;outline:none;background:#fff;color:#1B1B1F}
+.resbtn{display:none;margin-top:10px;width:100%;border:0;border-radius:22px;padding:10px;background:var(--a);color:#000;font-weight:700;font-size:14px;cursor:pointer;text-align:center;text-decoration:none}
+#off{display:none;background:#FFF3CD;color:#664D03;text-align:center;font-size:13px;padding:7px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 12px 4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--card);color:var(--t);padding:7px 15px;border-radius:20px;font-size:13px;cursor:pointer}
+.chip.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.filters{display:flex;gap:8px;padding:6px 12px 0;max-width:720px;margin:0 auto}
+.filters select{flex:1;margin:0;padding:9px 10px;font-size:13px}
+main,.pane{max-width:720px;margin:0 auto;padding:6px 12px 20px}
+.pane{display:none}.pane.on{display:block}
+.card{background:var(--card);border-radius:14px;padding:14px;margin:10px 0;box-shadow:0 1px 4px #0001;cursor:pointer;transition:transform .1s;overflow:hidden}
+.card:active{transform:scale(.985)}
+.thumb{width:calc(100% + 28px);margin:-14px -14px 12px;height:150px;object-fit:cover;display:block;background:var(--line)}
+.row{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.tag{display:inline-block;color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:8px}
+.new{background:#E53935;color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:8px}
+.pin{font-size:12px;color:var(--m)}
+.card h3{margin:9px 0 4px;font-size:17px}
+.card p{margin:0;color:var(--m);font-size:14px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-line}
+.due{display:inline-block;margin-top:9px;color:#fff;font-size:12px;font-weight:600;padding:4px 10px;border-radius:10px}
+.meta{margin-top:9px;font-size:12px;color:var(--soft)}
+.empty{text-align:center;color:var(--m);padding:60px 20px}
+.fab{position:fixed;right:18px;bottom:86px;width:56px;height:56px;border-radius:50%;border:0;background:var(--a);font-size:30px;box-shadow:0 4px 14px #0005;display:none;cursor:pointer;z-index:6}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;z-index:6;padding-bottom:env(safe-area-inset-bottom)}
+nav div{flex:1;text-align:center;padding:8px 0 7px;font-size:11px;color:var(--m);cursor:pointer}
+nav div b{display:block;font-size:20px;font-weight:400}
+nav div.on{color:var(--link);font-weight:700}
+.sheet{position:fixed;inset:0;background:var(--bg);z-index:10;overflow-y:auto;display:none}
+.sheet.show{display:block}
+.bar{background:var(--p);color:#fff;padding:14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:2}
+.bar b{font-size:18px}.back{background:none;border:0;color:#fff;font-size:26px;cursor:pointer}
+.body{max-width:720px;margin:0 auto;padding:16px 16px 40px}
+.body h2{margin:10px 0 2px;font-size:22px}
+.hero{width:100%;border-radius:12px;margin-bottom:12px;display:block}
+.txt{white-space:pre-wrap;line-height:1.6;font-size:16px;margin-top:14px;word-wrap:break-word}
+.btn{display:block;width:100%;border:0;border-radius:12px;padding:14px;font-size:15px;font-weight:600;background:var(--ac);color:#fff;margin-top:12px;cursor:pointer;text-align:center;text-decoration:none}
+.btn.o{background:var(--card);color:var(--link);border:1.5px solid var(--ac)}
+.btn.d{background:var(--card);color:#E53935;border:1.5px solid #E53935}
+.btn:disabled{opacity:.6}
+hr{border:0;border-top:1px solid var(--line);margin:22px 0 16px}
+.cm{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:9px}
+.cm b{color:var(--link);font-size:13px}
+.rp{background:var(--rp);color:var(--rpt);border-radius:8px;padding:9px;margin-top:8px;font-size:14px}
+.act{margin-top:8px;font-size:13px;font-weight:700}
+.act span{cursor:pointer;margin-right:16px;color:var(--link)}.act span.r{color:#E53935}.act span.g{color:var(--soft);font-weight:500}
+.flag{color:#E53935;font-size:12px;margin-left:6px}
+input,textarea,select{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:15px;margin-top:10px;background:var(--card);color:var(--t);font-family:inherit}
+textarea{min-height:90px;resize:vertical}
+label{font-size:13px;color:var(--m);display:block;margin-top:12px}
+.two{display:flex;gap:8px}.two>div{flex:1}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 18px;border-radius:20px;font-size:14px;z-index:30;display:none;max-width:90%;text-align:center}
+.sec{background:var(--card);border-radius:14px;padding:16px;margin:12px 0}
+.sec h4{margin:0 0 8px;font-size:16px}
+.sec .txt{margin-top:0;font-size:15px}
+.dl{display:flex;gap:12px;align-items:center;background:var(--card);border-radius:14px;padding:12px;margin:10px 0;cursor:pointer}
+.dd{flex:none;width:58px;text-align:center;border-radius:10px;padding:6px 0;color:#fff;font-weight:700}
+.dd small{display:block;font-size:11px;font-weight:600}.dd span{font-size:20px}
+.dl h3{margin:0;font-size:15px}.dl .meta{margin-top:4px}
+a.lk{color:var(--link)}
+.prev{max-width:100%;border-radius:10px;margin-top:10px;display:block}
+.foot{font-size:11px;color:var(--m);text-align:center;margin:24px 0 8px}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div class="logo">🎓</div>
+    <div class="tt">
+      <h1><span id="ttl">SKMU Updates</span><span class="badge" id="adm">ADMIN</span></h1>
+      <div class="sub" data-i="sub"></div>
+    </div>
+    <button class="hb" id="hTheme" aria-label="theme">🌙</button>
+    <button class="hb" id="hLang" aria-label="language">EN</button>
+  </div>
+  <input class="search" id="q" data-p="search">
+  <a class="resbtn" id="resBtn" target="_blank" rel="noopener" data-i="result"></a>
+</header>
+<div id="off" data-i="offline"></div>
+
+<div class="pane on" id="tab-home">
+  <div class="chips" id="chips" style="padding-left:0;padding-right:0"></div>
+  <div class="two" style="margin-top:6px">
+    <div><select id="fCourse"></select></div>
+    <div><select id="fSem"></select></div>
+  </div>
+  <div id="list"></div>
+</div>
+
+<div class="pane" id="tab-dates">
+  <h3 style="margin:14px 2px 4px" data-i="upcoming"></h3>
+  <div id="dates"></div>
+</div>
+
+<div class="pane" id="tab-guide">
+  <div class="sec"><h4 data-i="guide_t"></h4><div class="txt" id="guideTxt"></div></div>
+</div>
+
+<div class="pane" id="tab-info">
+  <div class="sec"><h4 data-i="about_t"></h4><div class="txt" id="aboutTxt"></div></div>
+  <div class="sec" id="contactBox"><h4 data-i="contact"></h4><div class="txt" id="contactTxt"></div></div>
+  <div class="sec"><div class="txt" data-i="disc"></div><a class="lk" href="/privacy" style="display:block;margin-top:10px" data-i="privacy"></a></div>
+  <div class="sec" id="adminBox">
+    <h4 data-i="admin_t"></h4>
+    <div id="adminTools" style="display:none">
+      <button class="btn o" id="bStats" data-i="stats"></button>
+      <button class="btn o" id="bBackup" data-i="backup"></button>
+      <button class="btn o" id="bSettings" data-i="settings"></button>
+    </div>
+    <button class="btn" id="bLogin"></button>
+  </div>
+  <div class="foot" data-i="footer"></div>
+</div>
+
+<button class="fab" id="fab">＋</button>
+<nav id="nav">
+  <div data-tab="home" class="on"><b>🏠</b><span data-i="home"></span></div>
+  <div data-tab="dates"><b>📅</b><span data-i="dates"></span></div>
+  <div data-tab="guide"><b>📖</b><span data-i="guide"></span></div>
+  <div data-tab="info"><b>ℹ️</b><span data-i="info"></span></div>
+</nav>
+
+<div class="sheet" id="detail">
+  <div class="bar"><button class="back" data-close="detail">←</button><b data-i="update"></b></div>
+  <div class="body" id="dbody"></div>
+</div>
+
+<div class="sheet" id="form">
+  <div class="bar"><button class="back" data-close="form">←</button><b id="fHead"></b></div>
+  <div class="body">
+    <input id="f_title" maxlength="200" data-p="title_p">
+    <div class="two">
+      <div><label data-i="cat"></label><select id="f_cat"></select></div>
+      <div><label data-i="due"></label><input type="date" id="f_due" style="margin-top:0"></div>
+    </div>
+    <div class="two">
+      <div><label data-i="course"></label><select id="f_course"></select></div>
+      <div><label data-i="sem"></label><select id="f_sem"></select></div>
+    </div>
+    <textarea id="f_body" style="min-height:200px" data-p="body_p"></textarea>
+    <input id="f_link" data-p="link_p">
+    <input type="file" id="f_file" accept="image/*" hidden>
+    <button class="btn o" id="f_img" data-i="img_add"></button>
+    <img class="prev" id="f_prev" style="display:none" alt="">
+    <button class="btn d" id="f_imgrm" style="display:none" data-i="img_rm"></button>
+    <label style="display:flex;align-items:center;gap:8px;color:var(--t);font-size:15px"><input type="checkbox" id="f_pin" style="width:auto;margin:0"><span data-i="pin"></span></label>
+    <button class="btn" id="f_go"></button>
+  </div>
+</div>
+
+<div class="sheet" id="sset">
+  <div class="bar"><button class="back" data-close="sset">←</button><b data-i="settings"></b></div>
+  <div class="body">
+    <label data-i="s_result"></label><input id="s_result" placeholder="https://">
+    <label data-i="s_contact"></label><input id="s_contact">
+    <label data-i="s_about"></label><textarea id="s_about" style="min-height:140px"></textarea>
+    <label data-i="s_guide"></label><textarea id="s_guide" style="min-height:220px"></textarea>
+    <button class="btn" id="s_go" data-i="save"></button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+const COL={Admission:"#1565C0",Result:"#2E7D32",Form:"#EF6C00",Exam:"#C62828",Notice:"#6A1B9A",Scholarship:"#00838F",Other:"#546E7A"};
+const T={
+hi:{sub:"SKMU दुमका • एडमिशन • रिज़ल्ट • फॉर्म • नोटिस",search:"🔍 अपडेट खोजें...",home:"होम",dates:"तारीखें",guide:"गाइड",info:"जानकारी",
+all:"सभी",course:"कोर्स",sem:"सेमेस्टर",all_c:"सभी कोर्स",all_s:"सभी सेमेस्टर",sem_n:"सेम ",new:"नया",pinned:"📌 पिन",q_n:" सवाल",
+none:"अभी कोई अपडेट नहीं है।",offline:"ऑफ़लाइन — सेव की हुई अपडेट दिख रही हैं",fail:"सर्वर से कनेक्ट नहीं हो पाया।",
+result:"🎓 रिज़ल्ट देखें",lastdate:"अंतिम तारीख",dleft:" दिन बचे",today:"आज!",expired:"खत्म",update:"अपडेट",
+open_link:"लिंक / फॉर्म / फाइल खोलें",share:"शेयर करें",edit:"पोस्ट एडिट करें",del:"पोस्ट हटाएं",del_c:"यह पोस्ट और इसके सवाल हट जाएंगे। पक्का?",
+qa:"सवाल / जवाब",noq:"अभी कोई सवाल नहीं। पहला सवाल आप पूछें!",name:"आपका नाम",ask:"यहाँ अपना सवाल लिखें...",send:"सवाल भेजें",sent:"सवाल भेज दिया गया",
+report:"रिपोर्ट",reported:"रिपोर्ट हो गई, धन्यवाद",reply:"जवाब दें",remove:"हटाएं",rm_c:"यह सवाल हटाएं?",reply_p:"आपका जवाब:",
+login:"एडमिन लॉगिन",logout:"एडमिन लॉगआउट",key_p:"एडमिन की डालें:",logged:"एडमिन लॉगिन हो गया",loggedout:"लॉगआउट हो गया",
+newpost:"नई पोस्ट",editpost:"पोस्ट एडिट",title_p:"टाइटल (जैसे: BA सेम 1 एडमिशन फॉर्म 2026)",cat:"कैटेगरी",due:"अंतिम तारीख (वैकल्पिक)",
+body_p:"पूरी जानकारी: तारीख, फीस, कैसे भरना है...",link_p:"गूगल ड्राइव / फॉर्म लिंक (वैकल्पिक, https://...)",pin:"सबसे ऊपर पिन करें",
+img_add:"📷 फोटो जोड़ें",img_rm:"फोटो हटाएं",publish:"पब्लिश करें",save:"सेव करें",published:"पोस्ट पब्लिश हो गई",saved:"सेव हो गया",
+upcoming:"आने वाली अंतिम तारीखें",nodates:"कोई आने वाली तारीख नहीं।",guide_t:"एडमिशन गाइड",about_t:"हमारे बारे में",contact:"संपर्क",
+disc:"यह अनधिकृत (unofficial) स्टूडेंट-रन ऐप है। कृपया जानकारी की पुष्टि विश्वविद्यालय की आधिकारिक वेबसाइट से करें।",privacy:"प्राइवेसी पॉलिसी",
+admin_t:"एडमिन",stats:"आँकड़े देखें",backup:"बैकअप डाउनलोड करें",settings:"जानकारी / लिंक बदलें",
+s_result:"रिज़ल्ट वेबसाइट लिंक",s_contact:"संपर्क (फोन / ईमेल)",s_about:"हमारे बारे में टेक्स्ट",s_guide:"एडमिशन गाइड टेक्स्ट",
+copied:"कॉपी हो गया",footer:"अनधिकृत स्टूडेंट-रन ऐप",edited:"एडिट किया",users:"यूज़र",week:"इस हफ्ते एक्टिव",posts:"पोस्ट",qs:"सवाल",rep:"रिपोर्ट किए गए",name_req:"अपना नाम लिखें"},
+en:{sub:"SKMU Dumka • Admission • Result • Form • Notice",search:"🔍 Search updates...",home:"Home",dates:"Dates",guide:"Guide",info:"Info",
+all:"All",course:"Course",sem:"Semester",all_c:"All courses",all_s:"All semesters",sem_n:"Sem ",new:"NEW",pinned:"📌 Pinned",q_n:" Q&A",
+none:"No updates yet.",offline:"Offline — showing saved updates",fail:"Could not connect to the server.",
+result:"🎓 Check Result",lastdate:"Last date",dleft:" days left",today:"Today!",expired:"Expired",update:"Update",
+open_link:"Open link / form / file",share:"Share",edit:"Edit post",del:"Delete post",del_c:"This post and its questions will be deleted. Sure?",
+qa:"Questions & Answers",noq:"No questions yet. Be the first to ask!",name:"Your name",ask:"Write your question here...",send:"Send question",sent:"Question sent",
+report:"Report",reported:"Reported, thanks",reply:"Reply",remove:"Remove",rm_c:"Remove this question?",reply_p:"Your reply:",
+login:"Admin login",logout:"Admin logout",key_p:"Enter admin key:",logged:"Admin logged in",loggedout:"Logged out",
+newpost:"New Post",editpost:"Edit Post",title_p:"Title (e.g. BA Sem 1 Admission Form 2026)",cat:"Category",due:"Last date (optional)",
+body_p:"Full details: dates, fees, how to apply...",link_p:"Google Drive / Form link (optional, https://...)",pin:"Pin to top",
+img_add:"📷 Add photo",img_rm:"Remove photo",publish:"Publish",save:"Save",published:"Post published",saved:"Saved",
+upcoming:"Upcoming last dates",nodates:"No upcoming dates.",guide_t:"Admission Guide",about_t:"About",contact:"Contact",
+disc:"Unofficial student-run app. Always confirm details on the official university website.",privacy:"Privacy Policy",
+admin_t:"Admin",stats:"View stats",backup:"Download backup",settings:"Edit info / links",
+s_result:"Result website link",s_contact:"Contact (phone / email)",s_about:"About text",s_guide:"Admission guide text",
+copied:"Copied",footer:"Unofficial student-run app",edited:"Edited",users:"users",week:"active this week",posts:"posts",qs:"questions",rep:"reported",name_req:"Enter your name"}
+};
+
+const $=id=>document.getElementById(id);
+const enc=encodeURIComponent;
+const ls={get(k){try{return localStorage.getItem(k)||""}catch(e){return""}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const S={tab:"home",cat:"All",course:"All",sem:"All",q:"",lang:ls.get("lang")||"hi"};
+let CFG={categories:["Admission","Result","Form","Exam","Notice","Scholarship","Other"],courses:["All"],semesters:["All"],settings:{}};
+const t=k=>(T[S.lang]&&T[S.lang][k])||T.en[k]||k;
+const isAdmin=()=>!!ls.get("akey");
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt=ts=>new Date(ts*1000).toLocaleString(S.lang==="hi"?"hi-IN":"en-IN",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"});
+const fmtD=d=>d.split("-").reverse().join("/");
+let toastT;function toast(m){const e=$("toast");e.textContent=m;e.style.display="block";clearTimeout(toastT);toastT=setTimeout(()=>e.style.display="none",2600)}
+
+async function api(m,p,b,admin){
+  const h={"Content-Type":"application/json"};
+  if(admin)h["X-Admin-Key"]=ls.get("akey");
+  const r=await fetch(p,{method:m,headers:h,body:b?JSON.stringify(b):undefined});
+  let j={};try{j=await r.json()}catch(e){}
+  if(!r.ok)throw new Error(j.error||("Error "+r.status));
+  return j;
+}
+
+/* ---------- theme & language ---------- */
+function applyTheme(){
+  const th=ls.get("theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+  document.documentElement.setAttribute("data-theme",th);
+  $("hTheme").textContent=th==="dark"?"☀️":"🌙";
+  document.querySelector('meta[name=theme-color]').content=th==="dark"?"#0D1457":"#1A237E";
+}
+function applyLang(){
+  document.documentElement.lang=S.lang;
+  document.querySelectorAll("[data-i]").forEach(e=>e.textContent=t(e.dataset.i));
+  document.querySelectorAll("[data-p]").forEach(e=>e.placeholder=t(e.dataset.p));
+  $("hLang").textContent=S.lang==="hi"?"EN":"हि";
+  $("bLogin").textContent=isAdmin()?t("logout"):t("login");
+  $("f_go").textContent=t("publish");
+  fillFilters();
+}
+$("hTheme").onclick=()=>{const cur=document.documentElement.getAttribute("data-theme");ls.set("theme",cur==="dark"?"light":"dark");applyTheme()};
+$("hLang").onclick=()=>{S.lang=S.lang==="hi"?"en":"hi";ls.set("lang",S.lang);applyLang();chips();renderTab()};
+
+/* ---------- config ---------- */
+function fillFilters(){
+  $("fCourse").innerHTML=CFG.courses.map(c=>`<option value="${esc(c)}">${c==="All"?t("all_c"):esc(c)}</option>`).join("");
+  $("fSem").innerHTML=CFG.semesters.map(c=>`<option value="${esc(c)}">${c==="All"?t("all_s"):t("sem_n")+esc(c)}</option>`).join("");
+  $("fCourse").value=S.course;$("fSem").value=S.sem;
+}
+async function loadConfig(){
+  try{const j=await api("GET","/api/config");CFG=j;ls.set("cfg",JSON.stringify(j))}
+  catch(e){const c=ls.get("cfg");if(c){try{CFG=JSON.parse(c)}catch(x){}}}
+  fillFilters();applySettings();
+}
+function applySettings(){
+  const s=CFG.settings||{};
+  const rb=$("resBtn");
+  if(s.result_url&&/^https?:\/\//.test(s.result_url)){rb.href=s.result_url;rb.style.display="block"}else rb.style.display="none";
+  $("guideTxt").textContent=s.guide||"";
+  $("aboutTxt").textContent=s.about||"";
+  $("contactBox").style.display=s.contact?"block":"none";
+  $("contactTxt").textContent=s.contact||"";
+}
+$("fCourse").onchange=e=>{S.course=e.target.value;loadPosts()};
+$("fSem").onchange=e=>{S.sem=e.target.value;loadPosts()};
+
+/* ---------- tabs ---------- */
+function adminUi(){
+  $("fab").style.display=isAdmin()&&S.tab==="home"?"block":"none";
+  $("adm").style.display=isAdmin()?"inline-block":"none";
+  $("adminTools").style.display=isAdmin()?"block":"none";
+  $("bLogin").textContent=isAdmin()?t("logout"):t("login");
+}
+function setTab(n){
+  S.tab=n;
+  document.querySelectorAll(".pane").forEach(p=>p.classList.toggle("on",p.id==="tab-"+n));
+  document.querySelectorAll("#nav div").forEach(d=>d.classList.toggle("on",d.dataset.tab===n));
+  adminUi();renderTab();scrollTo(0,0);
+}
+function renderTab(){if(S.tab==="home")loadPosts();else if(S.tab==="dates")loadDates()}
+document.querySelectorAll("#nav div").forEach(d=>d.onclick=()=>setTab(d.dataset.tab));
+function chips(){
+  $("chips").innerHTML=["All",...CFG.categories].map(c=>`<div class="chip ${c===S.cat?"on":""}" data-c="${esc(c)}">${c==="All"?t("all"):esc(c)}</div>`).join("");
+  document.querySelectorAll(".chip").forEach(e=>e.onclick=()=>{S.cat=e.dataset.c;chips();loadPosts()});
+}
+
+/* ---------- posts ---------- */
+const daysLeft=d=>{const[a,b,c]=d.split("-").map(Number);const n=new Date();n.setHours(0,0,0,0);return Math.round((new Date(a,b-1,c)-n)/864e5)};
+function dueBadge(d){
+  if(!d)return"";
+  const n=daysLeft(d);
+  const col=n<0?"#8A8F98":n<=3?"#C62828":"#EF6C00";
+  const tx=n<0?t("expired"):n===0?t("today"):n+t("dleft");
+  return `<span class="due" style="background:${col}">⏰ ${fmtD(esc(d))} • ${tx}</span>`;
+}
+function card(p){
+  const isNew=Date.now()/1000-p.created_at<86400;
+  return `<div class="card" data-id="${p.id}">
+    ${p.image?`<img class="thumb" loading="lazy" src="/uploads/${esc(p.image)}" alt="">`:""}
+    <div class="row"><span class="tag" style="background:${COL[p.category]||COL.Other}">${esc(p.category)}</span>${isNew?`<span class="new">${t("new")}</span>`:""}${p.pinned?`<span class="pin">${t("pinned")}</span>`:""}</div>
+    <h3>${esc(p.title)}</h3><p>${esc(p.body)}</p>${dueBadge(p.due_date)}
+    <div class="meta">${fmt(p.created_at)} • ${p.comment_count}${t("q_n")}${p.course!=="All"?" • "+esc(p.course):""}${p.semester!=="All"?" • "+t("sem_n")+esc(p.semester):""}</div>
+  </div>`;
+}
+function bindCards(root){root.querySelectorAll(".card,.dl").forEach(e=>e.onclick=()=>openPost(+e.dataset.id))}
+function showOffline(v){$("off").style.display=v?"block":"none"}
+function renderList(posts){
+  $("list").innerHTML=posts.length?posts.map(card).join(""):`<div class="empty">${t("none")}</div>`;
+  bindCards($("list"));
+}
+async function loadPosts(){
+  const qs=`category=${enc(S.cat)}&course=${enc(S.course)}&semester=${enc(S.sem)}&q=${enc(S.q)}`;
+  try{
+    const j=await api("GET","/api/posts?"+qs);
+    ls.set("pc:"+qs,JSON.stringify(j.posts));showOffline(false);renderList(j.posts);
+  }catch(e){
+    const c=ls.get("pc:"+qs);
+    if(c){try{showOffline(true);renderList(JSON.parse(c));return}catch(x){}}
+    $("list").innerHTML=`<div class="empty">${t("fail")}</div>`;
+  }
+}
+async function loadDates(){
+  try{
+    const j=await api("GET","/api/dates");showOffline(false);
+    $("dates").innerHTML=j.posts.length?j.posts.map(p=>{
+      const n=daysLeft(p.due_date),col=n<=3?"#C62828":"#EF6C00";
+      const[y,m,d]=p.due_date.split("-");
+      const mon=new Date(+y,+m-1,+d).toLocaleString(S.lang==="hi"?"hi-IN":"en-IN",{month:"short"});
+      return `<div class="dl" data-id="${p.id}"><div class="dd" style="background:${col}"><small>${esc(mon)}</small><span>${+d}</span></div>
+        <div><h3>${esc(p.title)}</h3><div class="meta">${esc(p.category)} • ${n===0?t("today"):n+t("dleft")}</div></div></div>`}).join("")
+      :`<div class="empty">${t("nodates")}</div>`;
+    bindCards($("dates"));
+  }catch(e){showOffline(true);$("dates").innerHTML=`<div class="empty">${t("fail")}</div>`}
+}
+$("q").oninput=(()=>{let tm;return e=>{clearTimeout(tm);tm=setTimeout(()=>{S.q=e.target.value.trim();if(S.tab!=="home")setTab("home");else loadPosts()},400)}})();
+
+/* ---------- sheets ---------- */
+const stack=[];
+function openSheet(id){if(!stack.includes(id))stack.push(id);$(id).classList.add("show");document.body.style.overflow="hidden"}
+function closeSheet(id){
+  $(id).classList.remove("show");
+  const i=stack.indexOf(id);if(i>=0)stack.splice(i,1);
+  if(!stack.length){document.body.style.overflow="";renderTab()}
+}
+document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>closeSheet(b.dataset.close));
+window.skmuBack=()=>{
+  if(stack.length){closeSheet(stack[stack.length-1]);return true}
+  if(S.tab!=="home"){setTab("home");return true}
+  return false;
+};
+
+/* ---------- post detail ---------- */
+function doShare(text){
+  if(window.AndroidBridge&&AndroidBridge.share){AndroidBridge.share(text);return}
+  if(navigator.share){navigator.share({text}).catch(()=>{});return}
+  try{navigator.clipboard.writeText(text);toast(t("copied"))}catch(e){}
+}
+async function openPost(id){
+  openSheet("detail");
+  $("dbody").innerHTML=`<div class="empty">...</div>`;
+  try{
+    const j=await api("GET","/api/posts/"+id),p=j.post;
+    const link=p.link&&/^https?:\/\//.test(p.link)?`<a class="btn" href="${esc(p.link)}" target="_blank" rel="noopener">${t("open_link")}</a>`:"";
+    $("dbody").innerHTML=`
+      ${p.image?`<img class="hero" src="/uploads/${esc(p.image)}" alt="">`:""}
+      <div class="row"><span class="tag" style="background:${COL[p.category]||COL.Other}">${esc(p.category)}</span>
+        ${p.course!=="All"?`<span class="tag" style="background:var(--ac)">${esc(p.course)}</span>`:""}
+        ${p.semester!=="All"?`<span class="tag" style="background:var(--ac)">${t("sem_n")}${esc(p.semester)}</span>`:""}</div>
+      <h2>${esc(p.title)}</h2>
+      <div class="meta">${fmt(p.created_at)}${p.edited_at?" • "+t("edited"):""}</div>
+      ${dueBadge(p.due_date)}
+      <div class="txt" id="ptxt"></div>${link}
+      <button class="btn o" id="shr">${t("share")}</button>
+      ${isAdmin()?`<button class="btn o" id="edp">${t("edit")}</button><button class="btn d" id="delp">${t("del")}</button>`:""}
+      <hr><b style="font-size:17px">${t("qa")}</b>
+      <div style="margin-top:10px">${j.comments.length?j.comments.map(c=>`
+        <div class="cm"><b>${esc(c.name)}</b>${isAdmin()&&c.reports>0?`<span class="flag">⚠ ${c.reports}</span>`:""}<div>${esc(c.text)}</div>
+        ${c.reply?`<div class="rp"><b>Admin:</b> ${esc(c.reply)}</div>`:""}
+        <div class="act">${isAdmin()?`<span data-r="${c.id}">${t("reply")}</span><span class="r" data-x="${c.id}">${t("remove")}</span>`:""}<span class="g" data-rep="${c.id}">${t("report")}</span></div></div>`).join(""):`<div style="color:var(--m);font-size:14px">${t("noq")}</div>`}</div>
+      <input id="c_name" maxlength="40" placeholder="${t("name")}" value="${esc(ls.get("uname"))}">
+      <textarea id="c_text" maxlength="500" placeholder="${t("ask")}"></textarea>
+      <button class="btn" id="c_go">${t("send")}</button>`;
+    $("ptxt").textContent=p.body;
+    $("ptxt").innerHTML=esc(p.body).replace(/(https?:\/\/[^\s<]+)/g,'<a class="lk" href="$1" target="_blank" rel="noopener">$1</a>');
+    $("shr").onclick=()=>doShare(p.title+"\n\n"+p.body+"\n\n— SKMU Updates");
+    $("c_go").onclick=async()=>{
+      const name=$("c_name").value.trim(),text=$("c_text").value.trim();
+      if(!name){toast(t("name_req"));return}
+      try{await api("POST","/api/posts/"+id+"/comments",{name,text});ls.set("uname",name);toast(t("sent"));openPost(id)}catch(e){toast(e.message)}
+    };
+    document.querySelectorAll("[data-rep]").forEach(e=>e.onclick=async()=>{try{await api("POST","/api/comments/"+e.dataset.rep+"/report");e.textContent=t("reported");e.onclick=null}catch(x){toast(x.message)}});
+    if(isAdmin()){
+      $("edp").onclick=()=>openForm(p);
+      $("delp").onclick=async()=>{if(confirm(t("del_c"))){try{await api("DELETE","/api/posts/"+id,null,true);closeSheet("detail")}catch(e){toast(e.message)}}};
+      document.querySelectorAll("[data-r]").forEach(e=>e.onclick=async()=>{const r=prompt(t("reply_p"));if(r){try{await api("POST","/api/comments/"+e.dataset.r+"/reply",{reply:r},true);openPost(id)}catch(x){toast(x.message)}}});
+      document.querySelectorAll("[data-x]").forEach(e=>e.onclick=async()=>{if(confirm(t("rm_c"))){try{await api("DELETE","/api/comments/"+e.dataset.x,null,true);openPost(id)}catch(x){toast(x.message)}}});
+    }
+  }catch(e){$("dbody").innerHTML=`<div class="empty">${esc(e.message)}</div>`}
+}
+
+/* ---------- create / edit form ---------- */
+let editing=null,pendingImg=null,curImg="";
+function opts(list,sel,allLabel){return list.map(c=>`<option value="${esc(c)}" ${c===sel?"selected":""}>${c==="All"&&allLabel?allLabel:esc(c)}</option>`).join("")}
+function showPrev(src){const im=$("f_prev");if(src){im.src=src;im.style.display="block";$("f_imgrm").style.display="block"}else{im.removeAttribute("src");im.style.display="none";$("f_imgrm").style.display="none"}}
+function openForm(p){
+  editing=p||null;pendingImg=null;curImg=p?p.image:"";
+  $("fHead").textContent=p?t("editpost"):t("newpost");
+  $("f_go").textContent=p?t("save"):t("publish");
+  $("f_title").value=p?p.title:"";$("f_body").value=p?p.body:"";$("f_link").value=p?p.link:"";
+  $("f_due").value=p?p.due_date:"";$("f_pin").checked=p?p.pinned:false;
+  $("f_cat").innerHTML=opts(CFG.categories,p?p.category:"Other");
+  $("f_course").innerHTML=opts(CFG.courses,p?p.course:"All",t("all"));
+  $("f_sem").innerHTML=opts(CFG.semesters,p?p.semester:"All",t("all"));
+  showPrev(curImg?"/uploads/"+curImg:"");
+  openSheet("form");
+}
+function resizeImg(file){
+  return new Promise((res,rej)=>{
+    const img=new Image(),u=URL.createObjectURL(file);
+    img.onload=()=>{
+      const k=Math.min(1,1280/Math.max(img.width,img.height));
+      const c=document.createElement("canvas");c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);
+      c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+      c.toBlob(b=>{URL.revokeObjectURL(u);b?res(b):rej(new Error("Photo error"))},"image/jpeg",.82);
+    };
+    img.onerror=()=>rej(new Error("Photo error"));img.src=u;
+  });
+}
+$("f_img").onclick=()=>$("f_file").click();
+$("f_file").onchange=async e=>{
+  const f=e.target.files[0];if(!f)return;
+  try{pendingImg=await resizeImg(f);showPrev(URL.createObjectURL(pendingImg))}catch(x){toast(x.message)}
+  e.target.value="";
+};
+$("f_imgrm").onclick=()=>{pendingImg=null;curImg="";showPrev("")};
+$("f_go").onclick=async()=>{
+  const btn=$("f_go");btn.disabled=true;
+  try{
+    let image=curImg;
+    if(pendingImg){
+      const fd=new FormData();fd.append("image",pendingImg,"image.jpg");
+      const r=await fetch("/api/upload",{method:"POST",headers:{"X-Admin-Key":ls.get("akey")},body:fd});
+      let j={};try{j=await r.json()}catch(x){}
+      if(!r.ok)throw new Error(j.error||"Upload error");
+      image=j.image;
+    }
+    const body={title:$("f_title").value,body:$("f_body").value,category:$("f_cat").value,course:$("f_course").value,
+      semester:$("f_sem").value,due_date:$("f_due").value,link:$("f_link").value,pinned:$("f_pin").checked,image};
+    if(editing){await api("PUT","/api/posts/"+editing.id,body,true);toast(t("saved"));const id=editing.id;closeSheet("form");openPost(id)}
+    else{await api("POST","/api/posts",body,true);toast(t("published"));closeSheet("form")}
+  }catch(e){toast(e.message)}finally{btn.disabled=false}
+};
+$("fab").onclick=()=>openForm(null);
+
+/* ---------- admin ---------- */
+async function adminToggle(){
+  if(isAdmin()){ls.set("akey","");adminUi();toast(t("loggedout"));return}
+  const k=prompt(t("key_p"));if(!k)return;
+  ls.set("akey",k.trim());
+  try{await api("POST","/api/admin/check",{},true);adminUi();toast(t("logged"))}
+  catch(e){ls.set("akey","");adminUi();toast(e.message)}
+}
+$("bLogin").onclick=adminToggle;
+$("ttl").onclick=(()=>{let n=0,tm;return()=>{n++;clearTimeout(tm);tm=setTimeout(()=>n=0,800);if(n>=5){n=0;setTab("info");adminToggle()}}})();
+$("bStats").onclick=async()=>{
+  try{const s=await api("GET","/api/admin/stats",null,true);
+    alert(`${s.devices} ${t("users")}\n${s.active7} ${t("week")}\n${s.posts} ${t("posts")}\n${s.comments} ${t("qs")}\n${s.reported} ${t("rep")}`)}
+  catch(e){toast(e.message)}
+};
+$("bBackup").onclick=async()=>{
+  try{
+    const r=await fetch("/api/admin/backup",{headers:{"X-Admin-Key":ls.get("akey")}});
+    if(!r.ok)throw new Error("Error "+r.status);
+    const b=await r.blob(),a=document.createElement("a");
+    a.href=URL.createObjectURL(b);a.download="skmu-backup.db";document.body.appendChild(a);a.click();a.remove();
+    toast(t("saved"));
+  }catch(e){toast(e.message)}
+};
+$("bSettings").onclick=()=>{
+  const s=CFG.settings||{};
+  $("s_result").value=s.result_url||"";$("s_contact").value=s.contact||"";$("s_about").value=s.about||"";$("s_guide").value=s.guide||"";
+  openSheet("sset");
+};
+$("s_go").onclick=async()=>{
+  try{
+    const j=await api("PUT","/api/settings",{result_url:$("s_result").value,contact:$("s_contact").value,about:$("s_about").value,guide:$("s_guide").value},true);
+    CFG.settings=j.settings;ls.set("cfg",JSON.stringify(CFG));applySettings();toast(t("saved"));closeSheet("sset");
+  }catch(e){toast(e.message)}
+};
+
+/* ---------- start ---------- */
+(function init(){
+  let id=ls.get("did");
+  if(!id){id=(crypto.randomUUID?crypto.randomUUID():String(Math.random()).slice(2)+Date.now()).replace(/[^A-Za-z0-9_-]/g,"").slice(0,40);ls.set("did",id)}
+  fetch("/api/ping",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})}).catch(()=>{});
+  applyTheme();applyLang();adminUi();chips();
+  loadConfig().then(()=>{chips();loadPosts()});
+  if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});
+})();
+</script>
+</body>
+</html>
